@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius: var(--radius);
+
+  --color-base: hsl(var(--base));
+  --color-surface: hsl(var(--surface));
+  --color-raised: hsl(var(--raised));
+  --color-mint: hsl(var(--mint));
+  --color-mint-dim: hsl(var(--mint-dim));
+  --color-amber: hsl(var(--amber));
+  --color-text-primary: hsl(var(--text-primary));
+  --color-text-secondary: hsl(var(--text-secondary));
+  --color-text-code: hsl(var(--text-code));
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.1%;
+    --primary: 240 10% 3.1%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.1%;
+    --radius: 0.5rem;
+
+    --base: 0 0% 100%;
+    --surface: 0 0% 98%;
+    --raised: 0 0% 96%;
+    --mint: 210 100% 40%;
+    --mint-dim: 210 100% 95%;
+    --amber: 240 10% 90%;
+    --text-primary: 240 10% 3.1%;
+    --text-secondary: 240 3.8% 46.1%;
+    --text-code: 240 10% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Syne', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Syne', sans-serif;
+  }
+  .font-mono {
+    font-family: 'Space Mono', monospace;
+  }
+  .font-editorial {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+  .technical-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  }
+}
+
+@media (pointer: coarse) {
+  html, body, * {
+    cursor: auto !important;
+  }
+}
