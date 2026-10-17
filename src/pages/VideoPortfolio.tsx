@@ -537,10 +537,12 @@ export const VideoPortfolio = () => {
             WhatsApp Collaboration <ArrowRight size={14} />
           </a>
           <a
-            href="mailto:amanbam604@gmail.com"
+            href="https://www.linkedin.com/company/devx-sols/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-10 py-5 bg-zinc-900 text-white border border-white/10 hover:border-white/20 font-mono font-black text-xs uppercase tracking-widest rounded-xl hover:scale-105 transition-transform w-full sm:w-auto justify-center"
           >
-            Shoot Email
+            LinkedIn Profile
           </a>
         </div>
       </section>

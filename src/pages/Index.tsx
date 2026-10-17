@@ -10,27 +10,14 @@ import Projects from '../components/portfolio/Projects';
 import Skills from '../components/portfolio/Skills';
 import Experience from '../components/portfolio/Experience';
 import Stats from '../components/portfolio/Stats';
+import ProjectEstimator from '../components/portfolio/ProjectEstimator';
 import Contact from '../components/portfolio/Contact';
 import Footer from '../components/portfolio/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Content = () => (
-  <>
-    <Hero />
-    <About />
-    <Projects />
-    <Skills />
-    <Experience />
-    <Stats />
-    <Contact />
-    <Footer />
-  </>
-);
-
 const Index = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Force scroll to top on mount/refresh
@@ -40,33 +27,28 @@ const Index = () => {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      infinite: false, 
+      infinite: false,
     });
 
-    lenis.on('scroll', (e: any) => {
+    lenis.on('scroll', () => {
       ScrollTrigger.update();
-      
-      const contentHeight = contentRef.current?.offsetHeight || 0;
-      if (contentHeight > 0 && e.scroll >= contentHeight) {
-        lenis.scrollTo(e.scroll - contentHeight, { immediate: true });
-      }
     });
 
     function update(time: number) {
       lenis.raf(time * 1000);
     }
-    
+
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 1000);
+    }, 800);
 
     return () => {
       lenis.destroy();
@@ -80,12 +62,15 @@ const Index = () => {
       <CustomCursor />
       <Navbar />
       <div className="sections-wrapper">
-        <div ref={contentRef}>
-          <Content />
-        </div>
-        <div className="infinite-clone" aria-hidden="true">
-          <Content />
-        </div>
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Stats />
+        <ProjectEstimator />
+        <Contact />
+        <Footer />
       </div>
     </main>
   );

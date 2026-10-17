@@ -2,36 +2,32 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ShieldCheck, Award, Terminal, Sparkles, CheckCircle2, ExternalLink } from 'lucide-react';
+import { LinkedInLogoIcon as Linkedin } from '@radix-ui/react-icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const terminalRows = [
-  ['LOCATION', 'Global'],
-  ['STATUS', 'Accepting New Clients'],
-  ['FOUNDED', '2024'],
-  ['SERVICES', 'Custom Software • Web Apps • AI Integration'],
-  ['TECH STACK', 'MERN • Next.js • Python • Cloud'],
-  ['INDUSTRIES', 'SaaS • Healthcare • E-commerce • Finance'],
-  ['APPROACH', 'Agile • Systems Thinking • Scalability'],
+const corporateSpecs = [
+  ['ORGANIZATION', 'Devx Solutions Inc.'],
+  ['HEADQUARTERS', 'Global Remote Engineering'],
+  ['STATUS', 'Accepting Select Enterprise Partners'],
+  ['SPECIALIZATION', 'Mission-Critical SaaS • AI Automations • Cloud'],
+  ['CORE STACK', 'React • Next.js • Python • Django • AWS • LLMs'],
+  ['INDUSTRIES', 'FinTech • HealthTech • B2B SaaS • E-Commerce'],
+  ['METHODOLOGY', 'Agile Sprints • Systems Architecture • Zero Downtime'],
 ];
 
-const teamMembers = [
-  { name: 'Rafaqat Ali', role: 'CEO', image: '/images/team/Rafaqat Ali.jpeg' },
-  { name: 'Abdul Rehman Yousufi', role: 'CAO', image: '/images/team/Abdul Rehman Yousufi.jpeg' },
-  { name: 'Ahsan Kamal', role: 'SD', image: '/images/team/Ahsan Kamal.jpeg' },
-  { name: 'Fahad Ali', role: 'COO', image: '/images/team/Fahad Ali.jpeg' },
-  { name: 'Muhammad Haris', role: 'CSO', image: '/images/team/Muhammad Haris.jpeg' },
-  { name: 'Muhammad Moeez Sultan', role: 'CGO', image: '/images/team/Muhammad Moeez Sultan.jpeg' },
-  { name: 'Rehan Ali', role: 'CCO', image: '/images/team/Rehan Ali.jpeg' },
-  { name: 'Umar Amin', role: 'CTO', image: '/images/team/Umar Amin.jpeg' },
-];
+const ceoData = {
+  name: 'Rafaqat Ali',
+  title: 'Chief Executive Officer & Founder',
+  image: '/images/team/Rafaqat Ali.jpeg',
+  bio: 'Rafaqat Ali leads Devx Solutions with a steadfast commitment to engineering precision, architectural durability, and strategic product delivery. Under his leadership, Devx Solutions has engineered high-throughput platforms for international clients, bridging the gap between cutting-edge AI breakthroughs and dependable enterprise software.',
+  quote: '“We do not view software as mere lines of code. We architect scalable digital infrastructure that fundamentally propels our partners ahead of their competition.”'
+};
 
-const About = () => {
+export const About = () => {
   const borderRef = useRef<HTMLDivElement>(null);
-  const [selectedMember, setSelectedMember] = useState<{name: string, role: string, image: string} | null>(null);
-
-  const ceo = teamMembers.find(member => member.role === 'CEO');
-  const restOfTeam = teamMembers.filter(member => member.role !== 'CEO');
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -48,74 +44,80 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="pt-16 pb-32 px-6 md:px-12 relative overflow-hidden">
-      <div className="absolute inset-0 technical-grid opacity-50 pointer-events-none" />
-      <div className="max-w-7xl mx-auto relative z-10">
-        <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-mint mb-16">002 — ABOUT</p>
+    <section id="about" className="py-24 md:py-32 px-6 md:px-12 relative overflow-hidden bg-white">
+      <div className="absolute inset-0 technical-grid opacity-40 pointer-events-none" />
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
-          <div className="lg:w-[55%]">
-            <div className="relative pl-6 mb-12">
-              <div ref={borderRef} className="absolute left-0 top-0 w-[2px] h-full bg-mint origin-bottom" />
-              <p className="font-editorial text-4xl md:text-5xl text-foreground leading-snug">
-                We don't just write code.
-                We <br />
-                <span className="text-blue-600">build systems</span>
-                <br />
-                that drive business growth.
-              </p>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <p className="font-mono text-xs tracking-[0.25em] uppercase text-blue-600 mb-12 font-bold">
+          002 — OUR FIRM & PHILOSOPHY
+        </p>
+
+        {/* Narrative & Terminal Diagnostics Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Narrative */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="relative pl-6 mb-8">
+              <div ref={borderRef} className="absolute left-0 top-0 w-[3px] h-full bg-blue-600 origin-bottom" />
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-slate-900 font-extrabold leading-tight">
+                Architecting digital solutions <br />
+                <span className="text-blue-600">tailored for scale</span> and performance.
+              </h2>
             </div>
 
-            {[
-              "Devx Solutions is a premier software development agency dedicated to transforming complex business challenges into elegant, scalable digital products. We partner with forward-thinking companies to build solutions that matter.",
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal">
+              <strong className="text-slate-900 font-semibold">Devx Solutions</strong> is a premier software engineering firm partnering with forward-thinking enterprises, fast-growth startups, and visionary founders. We transform complex operational hurdles into elegant, robust digital products that perform reliably under heavy workload.
+            </p>
 
-              "Our team specializes in full-stack engineering, AI automation, and cloud infrastructure. From initial architecture to deployment, we deliver robust SaaS platforms, intuitive web applications, and cutting-edge AI tools.",
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal">
+              Our multidisciplinary engineering practice specializes in high-concurrency web platforms, custom AI automations, and resilient cloud architectures. We don't just ship features; we engineer maintainable, audit-ready systems designed to scale seamlessly with your bottom line.
+            </p>
 
-              "We believe in engineering excellence and systems thinking. We build for performance, security, and scalability, ensuring that the software we create not only meets today's needs but adapts to tomorrow's opportunities."
-            ].map((text, i) => (
-              <motion.p
-                key={i}
-                className="text-text-secondary text-base leading-relaxed mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
-              >
-                {text}
-              </motion.p>
-            ))}
+            {/* Core Values Strip */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-mono font-bold text-blue-600 block mb-1">01 / ARCHITECTURE</span>
+                <p className="text-xs text-slate-600">Built on modern, decoupled stacks with zero technical debt.</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-mono font-bold text-emerald-600 block mb-1">02 / VELOCITY</span>
+                <p className="text-xs text-slate-600">Rapid agile execution with bi-weekly testable deliverables.</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-mono font-bold text-amber-600 block mb-1">03 / SECURITY</span>
+                <p className="text-xs text-slate-600">Enterprise RBAC, data encryption, and production QA rigor.</p>
+              </div>
+            </div>
           </div>
 
-          <div className="lg:w-[45%]">
-            <div className="bg-white shadow-xl shadow-slate-200/50 border border-slate-200 rounded-lg overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
-                <span className="w-2 h-2 rounded-full bg-red-500" />
-                <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                <span className="w-2 h-2 rounded-full bg-green-500" />
-                <span className="font-mono text-[11px] text-text-secondary ml-2">devx@solutions ~ $</span>
+          {/* Right Terminal Diagnostics Box */}
+          <div className="lg:col-span-5">
+            <div className="bg-slate-950 text-slate-200 shadow-2xl border border-slate-800 rounded-3xl overflow-hidden">
+              <div className="flex items-center gap-2 px-5 py-3.5 bg-slate-900/90 border-b border-slate-800">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                <span className="font-mono text-xs text-slate-400 ml-2 font-semibold">devx-system-status.sh</span>
               </div>
-              <div className="p-5 space-y-3">
-                {terminalRows.map(([key, val], i) => (
+              <div className="p-6 space-y-3.5 font-mono text-xs">
+                {corporateSpecs.map(([key, val], i) => (
                   <motion.div
                     key={key}
-                    className="flex justify-between font-mono text-[13px] gap-4"
-                    initial={{ opacity: 0, x: -10 }}
+                    className="flex justify-between items-baseline gap-4 border-b border-slate-900 pb-2.5"
+                    initial={{ opacity: 0, x: -8 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                    transition={{ delay: i * 0.06, duration: 0.3 }}
                   >
-                    <span className="text-text-secondary shrink-0">{key}</span>
-                    <span className="text-foreground flex items-center gap-1.5 text-right">
+                    <span className="text-slate-400 font-bold shrink-0">{key}</span>
+                    <span className="text-slate-100 flex items-center gap-2 text-right">
                       {key === 'STATUS' ? (
                         <>
-                          <motion.span
-                            className="w-1.5 h-1.5 rounded-full bg-mint inline-block shrink-0"
-                            animate={{ opacity: [0.4, 1, 0.4] }}
-                            transition={{ duration: 1.4, repeat: Infinity }}
-                          />
-                          {val}
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="text-emerald-400 font-semibold">{val}</span>
                         </>
-                      ) : val}
+                      ) : (
+                        val
+                      )}
                     </span>
                   </motion.div>
                 ))}
@@ -124,104 +126,102 @@ const About = () => {
           </div>
         </div>
 
-        {/* Team Section */}
-        <div className="mt-32">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h3 className="font-editorial text-3xl md:text-4xl text-foreground mb-4">Meet the Team</h3>
-            <p className="text-text-secondary text-base max-w-2xl mx-auto">
-              The brilliant minds behind our innovative solutions.
+        {/* Executive Leadership Spotlight: CEO Only */}
+        <div className="mt-28 pt-20 border-t border-slate-200">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <p className="font-mono text-xs uppercase tracking-widest text-blue-600 font-bold mb-2">
+              EXECUTIVE LEADERSHIP
             </p>
-          </motion.div>
+            <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-slate-900">
+              Guided by Engineering Vision
+            </h3>
+          </div>
 
-          {/* CEO Section - Single line */}
-          {ceo && (
-            <div className="flex justify-center mb-12">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="group flex flex-col items-center cursor-pointer"
-                onClick={() => setSelectedMember(ceo)}
-              >
-                <div className="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden mb-4 border-4 border-mint group-hover:border-blue-500 transition-colors duration-300 shadow-xl">
+          <div className="max-w-4xl mx-auto bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+              {/* CEO Portrait */}
+              <div className="md:col-span-5 flex flex-col items-center">
+                <div
+                  className="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl overflow-hidden border-4 border-white shadow-xl cursor-pointer group relative"
+                  onClick={() => setShowPhotoModal(true)}
+                  title="Click to view full portrait"
+                >
                   <img
-                    src={ceo.image}
-                    alt={ceo.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                    src={ceoData.image}
+                    alt={ceoData.name}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h4 className="font-mono text-lg md:text-xl text-foreground font-bold text-center">{ceo.name}</h4>
-                <p className="text-mint text-sm font-medium mt-1">{ceo.role}</p>
-              </motion.div>
+                <h4 className="font-display text-xl font-bold text-slate-900 mt-4 text-center">
+                  {ceoData.name}
+                </h4>
+                <p className="text-xs font-mono font-bold text-blue-600 tracking-wider uppercase mt-1 text-center">
+                  {ceoData.title}
+                </p>
+              </div>
+
+              {/* CEO Bio & Quote */}
+              <div className="md:col-span-7 space-y-4">
+                <p className="font-editorial text-xl sm:text-2xl text-slate-800 italic leading-snug">
+                  {ceoData.quote}
+                </p>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  {ceoData.bio}
+                </p>
+
+                <div className="pt-4 flex items-center gap-4">
+                  <a
+                    href="https://www.linkedin.com/company/devx-sols/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-mono font-semibold transition-colors"
+                  >
+                    <Linkedin size={14} className="text-blue-600" /> Connect on LinkedIn
+                  </a>
+                  <span className="text-xs font-mono text-slate-400">
+                    Direct Partner Inquiry
+                  </span>
+                </div>
+              </div>
             </div>
-          )}
-
-          {/* Rest of the Team Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {restOfTeam.map((member, i) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="group flex flex-col items-center cursor-pointer"
-                onClick={() => setSelectedMember(member)}
-              >
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden mb-4 border-2 border-slate-200 group-hover:border-blue-600 transition-colors duration-300 shadow-lg">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <h4 className="font-mono text-sm md:text-base text-foreground font-medium text-center">{member.name}</h4>
-                <p className="text-text-secondary text-xs mt-1">{member.role}</p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </div>
 
-      {/* Modal for Full Image */}
+      {/* CEO Photo Modal */}
       <AnimatePresence>
-        {selectedMember && (
+        {showPhotoModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedMember(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm cursor-zoom-out"
+            onClick={() => setShowPhotoModal(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md cursor-zoom-out"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the modal content
-              className="bg-white rounded-xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl cursor-default"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl overflow-hidden max-w-lg w-full shadow-2xl p-6 text-center"
             >
-              <div className="relative flex-1 overflow-hidden min-h-[50vh] bg-slate-100 flex items-center justify-center p-8">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-slate-100">
                 <img
-                  src={selectedMember.image}
-                  alt={selectedMember.name}
-                  className="max-w-full max-h-[60vh] object-contain rounded shadow-lg"
+                  src={ceoData.image}
+                  alt={ceoData.name}
+                  className="w-full h-full object-cover object-top"
                 />
-                <button 
-                  onClick={() => setSelectedMember(null)}
-                  className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full w-10 h-10 flex items-center justify-center text-white transition-colors z-10"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
               </div>
-              <div className="p-6 text-center bg-white border-t border-slate-100">
-                <h3 className="font-editorial text-2xl text-slate-900 mb-1">{selectedMember.name}</h3>
-                <p className="font-mono text-sm text-blue-600">{selectedMember.role}</p>
-              </div>
+              <h3 className="font-display text-2xl font-bold text-slate-900">{ceoData.name}</h3>
+              <p className="text-xs font-mono text-blue-600 font-bold uppercase tracking-wider mt-1">{ceoData.title}</p>
+              <button
+                onClick={() => setShowPhotoModal(false)}
+                className="mt-6 px-6 py-2 rounded-full bg-slate-900 text-white text-xs font-mono uppercase"
+              >
+                Close
+              </button>
             </motion.div>
           </motion.div>
         )}

@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Mail } from "lucide-react";
 import {
   GitHubLogoIcon as Github,
   LinkedInLogoIcon as Linkedin,
@@ -42,8 +41,8 @@ const Contact = () => {
         setStatus("sent");
         form.reset();
         toast({
-          title: "Message sent!",
-          description: "Thank you for reaching out. I'll get back to you soon.",
+          title: "Message received!",
+          description: "Thank you for reaching out. Our engineering team will review and get back to you shortly.",
         });
       } else {
         const errorData = await response.json();
@@ -118,16 +117,17 @@ const Contact = () => {
           <div className="space-y-6">
             {[
               {
-                icon: Mail,
-                label: "hello@devxsolutions.com",
-                href: "mailto:hello@devxsolutions.com",
+                icon: Linkedin,
+                label: "LinkedIn • /company/devx-sols",
+                href: "https://www.linkedin.com/company/devx-sols/",
               },
-              { icon: Linkedin, label: "LinkedIn", href: "#" },
             ].map(({ icon: Icon, label, href }) => (
               <a
                 key={label}
                 href={href}
-                className="flex items-center gap-4 text-text-primary hover:text-mint transition-colors group font-bold text-lg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 text-text-primary hover:text-blue-600 transition-colors group font-bold text-lg"
                 data-cursor="link"
               >
                 <Icon size={20} />

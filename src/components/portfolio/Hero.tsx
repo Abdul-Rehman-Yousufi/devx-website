@@ -1,35 +1,28 @@
 import { useRef, useState, useEffect, useMemo, Suspense, memo } from "react";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-// Shared smooth progress value for R3F
-const smoothProgress = { value: 0 };
+import { ArrowRight, Calculator, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
+import { Magnetic } from "./Magnetic";
 
 const Particles = memo(() => {
-  const count = 1500; // Reduced particle count for performance
+  const count = 900;
   const points = useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 25;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 25;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      p[i * 3] = (Math.random() - 0.5) * 22;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 22;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 25;
     }
     return p;
   }, []);
 
   const ref = useRef<THREE.Points>(null);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!ref.current) return;
-    ref.current.rotation.z += 0.0002;
-    // Optimized position update
-    const targetZ = smoothProgress.value * 20;
-    ref.current.position.z += (targetZ - ref.current.position.z) * 0.05;
+    ref.current.rotation.y += 0.0004;
+    ref.current.rotation.x += 0.0002;
   });
 
   return (
@@ -43,168 +36,149 @@ const Particles = memo(() => {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.012}
-        color="#3b82f6"
+        size={0.018}
+        color="#2563eb"
         transparent
-        opacity={0.2}
+        opacity={0.35}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
-        depthWrite={false} // Optimization for transparent particles
+        depthWrite={false}
       />
     </points>
   );
 });
 
-const StatusBadge = memo(() => (
-  <motion.div
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8"
-  >
-    <span className="relative flex h-2 w-2">
-      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-    </span>
-    <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-blue-400 uppercase font-bold">
-      Available for New Projects
-    </span>
-  </motion.div>
-));
-
-const HeroMainContent = memo(({ springProgress }: { springProgress: any }) => {
-  const scale = useTransform(springProgress, [0, 1], [1, 3]); // Reduced max scale
-  const opacity = useTransform(springProgress, [0, 0.4, 0.7], [1, 0.8, 0]);
-  const y = useTransform(springProgress, [0, 1], [0, -50]);
-
-  return (
-    <motion.div
-      style={{
-        scale,
-        opacity,
-        y,
-        pointerEvents: springProgress.get() > 0.5 ? "none" : "auto",
-        willChange: "transform, opacity" // GPU hint
-      }}
-      className="flex flex-col items-center"
-    >
-      <StatusBadge />
-
-      <div className="relative mb-6">
-        <h1
-          className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter text-slate-900 leading-[0.8] text-center"
-          style={{ letterSpacing: "-0.06em" }}
-        >
-          <span className="block mb-2">We Build Scalable &</span>
-          <span className="block bg-clip-text text-blue-600 pb-2">
-            Custom Software
-          </span>
-          <span className="block mt-2">That Drives Growth</span>
-        </h1>
-      </div>
-
-      <motion.p
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-        className="text-slate-600 text-base md:text-xl max-w-2xl text-center font-medium leading-relaxed mb-12 px-4"
-      >
-        Transforming ideas into high-performance SaaS, Enterprise Apps, and AI Solutions tailored to your business needs.
-      </motion.p>
-      
-      <div className="flex flex-wrap justify-center gap-4 mt-8">
-        {["MERN", "Next.js", "AI Tools", "SaaS"].map((tech, i) => (
-          <motion.div
-            key={tech}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1 + i * 0.1, duration: 0.5 }}
-            className="flex items-center gap-2 py-2 px-5 bg-slate-100 border border-slate-200 rounded-full text-[12px] font-bold text-slate-700"
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_12px_rgba(249,115,22,0.6)]" />
-            {tech}
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  );
-});
-
-const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+export const Hero = () => {
   const [dpr, setDpr] = useState(1);
-  const [isInView, setIsInView] = useState(true);
 
   useEffect(() => {
-    setDpr(Math.min(window.devicePixelRatio, 1.5)); // Reduced DPR cap
+    setDpr(Math.min(window.devicePixelRatio, 1.5));
   }, []);
-  
-  const xSpring = useSpring(0, {
-    stiffness: 80, // Softer spring for better performance
-    damping: 25,
-    restDelta: 0.001
-  });
 
-  const indicatorOpacity = useTransform(xSpring, [0, 0.2], [1, 0]);
-  const indicatorY = useTransform(xSpring, [0, 0.2], [0, 20]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        onUpdate: (self) => {
-          smoothProgress.value = self.progress;
-          xSpring.set(self.progress);
-        },
-        onToggle: (self) => setIsInView(self.isActive),
-      });
-    });
-    return () => ctx.revert();
-  }, [xSpring]);
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <div className="bg-white">
-      <section
-        ref={containerRef}
-        id="hero"
-        className="relative h-[150vh] w-full"
-      >
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <Canvas
-              camera={{ position: [0, 0, 5], fov: 50 }}
-              dpr={dpr}
-              frameloop={isInView ? "always" : "never"} // Optimization: pause loop when out of view
-              gl={{ 
-                antialias: false, // Performance win
-                alpha: true,
-                powerPreference: "high-performance"
-              }}
-            >
-              <Suspense fallback={null}>
-                <Particles />
-              </Suspense>
-            </Canvas>
-          </div>
+    <div className="relative bg-white text-slate-900 overflow-hidden border-b border-slate-100">
+      {/* Three.js Ambient Particle Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          dpr={dpr}
+          gl={{ antialias: false, alpha: true }}
+        >
+          <Suspense fallback={null}>
+            <Particles />
+          </Suspense>
+        </Canvas>
+      </div>
 
-          <div className="relative z-10 h-full flex items-center justify-center px-6">
-            <HeroMainContent springProgress={xSpring} />
+      {/* Hero Layout Container with safe top clearance under fixed navbar */}
+      <section
+        id="hero"
+        className="relative z-10 max-w-6xl mx-auto px-6 pt-32 sm:pt-36 md:pt-40 pb-20 md:pb-28 flex flex-col items-center text-center"
+      >
+        {/* Availability Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 mb-8 shadow-sm"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+          </span>
+          <span className="text-[11px] font-mono tracking-wider text-blue-700 uppercase font-bold">
+            Devx Solutions • Enterprise Engineering & AI
+          </span>
+        </motion.div>
+
+        {/* Main Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1] max-w-4xl font-display mb-6"
+        >
+          We Build Scalable &{" "}
+          <span className="text-blue-600">Custom Software</span> That Drives Growth
+        </motion.h1>
+
+        {/* Subtitle / Value Proposition */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-slate-600 text-base sm:text-lg md:text-xl max-w-2xl font-normal leading-relaxed mb-10"
+        >
+          From complex enterprise web applications to autonomous AI workflows and high-concurrency cloud systems, we engineer software designed for performance, security, and market impact.
+        </motion.p>
+
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-14"
+        >
+          <Magnetic>
+            <button
+              onClick={() => scrollTo("projects")}
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase transition-all shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 group"
+            >
+              Explore Client Work{" "}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+          </Magnetic>
+
+          <Magnetic>
+            <button
+              onClick={() => scrollTo("estimator")}
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm tracking-wide uppercase transition-all border border-slate-200 flex items-center justify-center gap-2"
+            >
+              <Calculator size={16} className="text-blue-600" /> Calculate Project Scope
+            </button>
+          </Magnetic>
+        </motion.div>
+
+        {/* Enterprise Trust Indicators */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="pt-8 border-t border-slate-100 w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 text-left"
+        >
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+            <span className="text-xs font-mono text-slate-600 font-medium">
+              Enterprise Grade
+            </span>
           </div>
-          
-          <motion.div 
-            style={{ 
-              opacity: indicatorOpacity,
-              y: indicatorY
-            }}
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-          >
-            <span className="text-[10px] font-mono tracking-[0.3em] text-blue-500/80 uppercase font-bold">Initiate Fly-Through</span>
-            <div className="w-[1px] h-16 bg-gradient-to-b from-blue-500 to-transparent animate-pulse" />
-          </motion.div>
-        </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+            <span className="text-xs font-mono text-slate-600 font-medium">
+              AI Automations
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+            <span className="text-xs font-mono text-slate-600 font-medium">
+              Cloud Agnostic
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+            <span className="text-xs font-mono text-slate-600 font-medium">
+              Agile Milestones
+            </span>
+          </div>
+        </motion.div>
       </section>
     </div>
   );

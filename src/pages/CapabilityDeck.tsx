@@ -364,15 +364,17 @@ const CapabilityDeck = () => {
               <MessageCircle size={24} /> WhatsApp
             </a>
             <a 
-              href="mailto:amanbam604@gmail.com"
+              href="https://www.linkedin.com/company/devx-sols/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-12 py-5 bg-zinc-900 text-white font-black rounded-full text-xl hover:scale-110 transition-transform flex items-center gap-3 border border-white/10"
             >
-              <Mail size={24} /> Email
+              <Globe size={24} /> LinkedIn
             </a>
           </div>
 
           <div className="mt-20 font-mono text-[10px] uppercase tracking-widest text-zinc-500 flex flex-col items-center gap-4">
-            <p>aman-bam.portfolio</p>
+            <p>devx-solutions.portfolio</p>
             <div className="h-[1px] w-20 bg-white/10" />
             <p>2026 // Capability Statement</p>
           </div>

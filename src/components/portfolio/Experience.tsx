@@ -6,12 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const events = [
-  { year: '2024', title: 'Founded Devx Solutions', desc: 'Started with a vision to deliver exceptional digital products and custom software solutions.' },
-  { year: '2024', title: 'First Major Enterprise Client', desc: 'Successfully delivered a comprehensive custom software system for our first enterprise partner.' },
-  { year: '2025', title: 'Expanded Our Team', desc: 'Grew our team of engineers, designers, and strategists to meet increasing client demand.' },
-  { year: '2025', title: 'Launched AI Solutions Division', desc: 'Introduced dedicated AI automation and integration services for forward-thinking businesses.' },
-  { year: '2026', title: 'Strategic Partnerships', desc: 'Formed key industry partnerships to deliver robust end-to-end tech solutions globally.' },
-  { year: '2026', title: 'Looking Ahead', desc: 'Continuing to innovate and build scalable systems that drive business growth for our clients.' },
+  { year: '2024', title: 'Establishment of Devx Solutions', desc: 'Founded with a core mission: architecting enterprise-grade digital infrastructure and decoupled web systems.' },
+  { year: '2024', title: 'First Enterprise Deployment', desc: 'Engineered and deployed a mission-critical multi-tenant ERP system for international corporate operations.' },
+  { year: '2025', title: 'Global Engineering Expansion', desc: 'Scaled engineering capacity across full-stack cloud, distributed databases, and high-concurrency microservices.' },
+  { year: '2025', title: 'Autonomous AI Division', desc: 'Pioneered custom agentic workflows, LLM tool-calling orchestration, and automated pipeline intelligence for enterprise clients.' },
+  { year: '2026', title: 'Global Strategic Alliances', desc: 'Formed cross-border technology alliances delivering turnkey SaaS products, native mobile clients, and enterprise modernization.' },
+  { year: '2026', title: 'Pioneering Next-Gen Architecture', desc: 'Accelerating business impact through intelligent automations, audit-ready compliance tools, and zero-latency web applications.' },
 ];
 
 const Experience = () => {

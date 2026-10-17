@@ -10,6 +10,7 @@ import AllProject from "./pages/AllProject.tsx";
 import CapabilityDeck from "./pages/CapabilityDeck.tsx";
 import VideoPortfolio from "./pages/VideoPortfolio.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminStudio from "./pages/AdminStudio.tsx";
 import { CommandPalette } from "./components/portfolio/CommandPalette.tsx";
 
 const queryClient = new QueryClient();
@@ -17,10 +18,6 @@ const queryClient = new QueryClient();
 const urlEndpoint = import.meta.env.VITE_IK_URL_ENDPOINT || "";
 
 const App = () => {
-  if (!urlEndpoint) {
-    console.warn("VITE_IK_URL_ENDPOINT is not defined in .env file");
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -31,6 +28,8 @@ const App = () => {
           <CommandPalette />
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/admin" element={<AdminStudio />} />
+            <Route path="/studio" element={<AdminStudio />} />
             <Route path="/project/:projectId" element={<ProjectDetail />} />
             <Route path="/all-project" element={<AllProject />} />
             <Route path="/capability-deck" element={<CapabilityDeck />} />

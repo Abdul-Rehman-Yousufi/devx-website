@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Magnetic } from './Magnetic';
 import { InstagramLogoIcon as Instagram } from '@radix-ui/react-icons';
+import { Sliders, ShieldCheck } from 'lucide-react';
 
 const sections = [
   { id: 'hero', label: 'HOME' },
   { id: 'about', label: 'ABOUT' },
   { id: 'projects', label: 'WORK' },
-  { id: 'video-portfolio', label: 'REELS' },
-  { id: 'skills', label: 'SKILLS' },
+  { id: 'skills', label: 'CAPABILITIES' },
   { id: 'experience', label: 'JOURNEY' },
+  { id: 'estimator', label: 'ESTIMATOR' },
   { id: 'contact', label: 'CONTACT' },
 ];
 
@@ -21,9 +22,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const { scrollY } = useScroll();
-  const bgOpacity = useTransform(scrollY, [0, 80], [0, 0.8]);
-  const blur = useTransform(scrollY, [0, 80], [0, 12]);
-  const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.06]);
+  const bgOpacity = useTransform(scrollY, [0, 80], [0, 0.85]);
+  const blur = useTransform(scrollY, [0, 80], [0, 14]);
+  const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.08]);
 
   const scrollTo = useCallback((id: string) => {
     setMenuOpen(false);
@@ -56,8 +57,11 @@ const Navbar = () => {
         }}
       >
         <Magnetic>
-          <button onClick={() => scrollTo('hero')} className="font-display font-extrabold text-lg text-mint tracking-tight" data-cursor="link">
-            DEVX
+          <button onClick={() => scrollTo('hero')} className="font-display font-extrabold text-xl text-blue-600 tracking-tight flex items-center gap-2" data-cursor="link">
+            <span>DEVX</span>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+              SOLUTIONS
+            </span>
           </button>
         </Magnetic>
 
@@ -71,7 +75,7 @@ const Navbar = () => {
               className="relative flex items-center justify-center p-2 group"
               data-cursor="link"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-text-secondary group-hover:bg-mint transition-colors" />
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-400 group-hover:bg-blue-600 transition-colors" />
               
               <AnimatePresence>
                 {hoveredDot === s.id && (
@@ -90,30 +94,29 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-6">
-          <div className="flex items-center gap-4">
-            <a 
-              href="#" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-text-secondary hover:text-mint transition-colors flex items-center"
-              data-cursor="link"
-            >
-              <Instagram width={16} height={16} />
-            </a>
-            <span className="flex items-center gap-2 font-mono text-[11px] text-text-secondary">
-              <motion.span
-                className="w-1.5 h-1.5 rounded-full bg-mint"
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.4, repeat: Infinity }}
-              />
-              AVAILABLE
-            </span>
-          </div>
+        <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={() => navigate('/admin')}
+            className="font-mono text-[11px] text-slate-500 hover:text-blue-600 px-3 py-1.5 rounded-full hover:bg-slate-100 transition-colors flex items-center gap-1.5"
+            title="Studio / Admin Portal"
+            data-cursor="link"
+          >
+            <Sliders size={13} /> STUDIO
+          </button>
+
+          <span className="flex items-center gap-2 font-mono text-[11px] text-text-secondary">
+            <motion.span
+              className="w-1.5 h-1.5 rounded-full bg-emerald-500"
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 1.4, repeat: Infinity }}
+            />
+            AVAILABLE
+          </span>
+
           <Magnetic>
             <motion.button
               onClick={() => scrollTo('contact')}
-              className="font-mono text-[11px] tracking-wider border border-mint/60 text-mint px-4 py-2 hover:bg-mint hover:text-primary-foreground transition-colors"
+              className="font-mono text-[11px] tracking-wider border border-blue-600/40 text-blue-600 px-4 py-2 hover:bg-blue-600 hover:text-white rounded-full transition-all"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               data-cursor="link"
@@ -124,7 +127,7 @@ const Navbar = () => {
         </div>
 
         <button
-          className="md:hidden flex flex-col gap-1.5 z-50"
+          className="md:hidden flex flex-col gap-1.5 z-50 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           data-cursor="link"
           aria-label="Toggle menu"
@@ -141,21 +144,35 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background flex flex-col items-center justify-center gap-8"
+            className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-6 p-6"
           >
             {sections.map((s, i) => (
               <motion.button
                 key={s.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.05 }}
                 onClick={() => scrollTo(s.id)}
-                className="font-display font-bold text-3xl text-foreground hover:text-mint transition-colors"
+                className="font-display font-bold text-2xl text-slate-900 hover:text-blue-600 transition-colors"
                 data-cursor="link"
               >
                 {s.label}
               </motion.button>
             ))}
+
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              onClick={() => {
+                setMenuOpen(false);
+                navigate('/admin');
+              }}
+              className="font-mono text-sm uppercase text-blue-600 bg-blue-50 px-6 py-2.5 rounded-full border border-blue-200 mt-4"
+              data-cursor="link"
+            >
+              Project Studio / Admin
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

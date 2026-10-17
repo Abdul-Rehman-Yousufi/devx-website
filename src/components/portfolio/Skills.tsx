@@ -78,7 +78,13 @@ const SKILL_GROUPS: SkillGroup[] = [
         projectLink: '#projects'
       },
       { name: 'Express', proficiency: 'Expert' },
-      { name: 'Python', proficiency: 'Learning' },
+      { 
+        name: 'Python', 
+        proficiency: 'Expert', 
+        statement: 'High-performance microservices, automated pipelines, and enterprise Django ORM architecture.',
+        projectLink: '#projects'
+      },
+      { name: 'Django REST', proficiency: 'Expert' },
       { name: 'PostgreSQL', proficiency: 'Advanced' },
       { name: 'MongoDB', proficiency: 'Advanced' },
       { name: 'Redis', proficiency: 'Advanced' },
@@ -301,21 +307,21 @@ const Skills = () => {
           <button
             key={group.label}
             onClick={() => setActiveGroup(i)}
-            className={`group relative flex items-center gap-3 px-6 py-3 rounded-xl font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-500 overflow-hidden border ${
+            className={`group relative flex items-center gap-3 px-6 py-3 rounded-xl font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 overflow-hidden border ${
               activeGroup === i 
-              ? 'bg-white text-black border-white' 
-              : 'bg-transparent text-zinc-500 border-white/10 hover:border-white/30 hover:text-white'
+              ? 'bg-slate-900 text-white border-slate-900 shadow-md' 
+              : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400 hover:text-slate-900 shadow-sm'
             }`}
           >
-            <span className={`relative z-10 transition-colors duration-500 ${activeGroup === i ? 'text-black' : 'group-hover:text-white'}`}>
+            <span className={`relative z-10 transition-colors duration-300 ${activeGroup === i ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-900'}`}>
               {group.icon}
             </span>
             <span className="relative z-10 font-bold">{group.label}</span>
             
             {/* Status Dot */}
             <span className="relative z-10 flex h-1.5 w-1.5 ml-1">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${activeGroup === i ? 'bg-black' : ''}`} style={{ backgroundColor: activeGroup === i ? '' : group.accent }}></span>
-              <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${activeGroup === i ? 'bg-black' : ''}`} style={{ backgroundColor: activeGroup === i ? '' : group.accent }}></span>
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75`} style={{ backgroundColor: group.accent }}></span>
+              <span className={`relative inline-flex rounded-full h-1.5 w-1.5`} style={{ backgroundColor: group.accent }}></span>
             </span>
 
             {/* Hover Background Effect */}
@@ -393,26 +399,20 @@ const Skills = () => {
         <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
           <button 
             onClick={() => navigate('/capability-deck')}
-            className="group relative flex items-center justify-center gap-4 bg-white text-black px-10 py-5 rounded-xl font-display font-black text-sm hover:bg-zinc-200 transition-all duration-500 w-full sm:w-auto"
+            className="group relative flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl font-display font-bold text-sm hover:bg-slate-800 transition-all duration-300 w-full sm:w-auto shadow-lg"
           >
-            <Zap className="w-4 h-4 fill-current" />
+            <Zap className="w-4 h-4 fill-current text-blue-400" />
             ACCESS CAPABILITY DECK
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-500" />
-            
-            {/* Subtle Glow */}
-            <div className="absolute inset-0 rounded-xl bg-white/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
 
           <button 
             onClick={() => navigate('/video-portfolio')}
-            className="group relative flex items-center justify-center gap-4 bg-transparent border border-white/10 hover:border-pink-500/30 text-slate-900 px-10 py-5 rounded-xl font-display font-black text-sm hover:bg-pink-500/5 transition-all duration-500 w-full sm:w-auto"
+            className="group relative flex items-center justify-center gap-3 bg-white border border-slate-200 hover:border-pink-500 text-slate-800 px-8 py-4 rounded-xl font-display font-bold text-sm hover:bg-pink-50/50 transition-all duration-300 w-full sm:w-auto shadow-sm"
           >
             <Film className="w-4 h-4 text-pink-500" />
-            VIEW VIDEO PORTFOLIO
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-500 text-pink-500" />
-            
-            {/* Subtle Glow */}
-            <div className="absolute inset-0 rounded-xl bg-pink-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            VIEW VIDEO REELS
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 text-pink-500" />
           </button>
         </div>
       </div>
