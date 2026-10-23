@@ -1,110 +1,82 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CheckCircle2, TrendingUp, Layers, ShieldCheck } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-  { value: 50, display: '50+', label: 'PROJECTS DELIVERED' },
-  { value: 99, display: '99%', label: 'CLIENT SATISFACTION' },
-  { value: 15, display: '15+', label: 'EXPERT ENGINEERS' },
-  { value: null, display: '24/7', label: 'SUPPORT & MAINTENANCE' },
+const outcomes = [
+  {
+    num: "01",
+    title: "Clear Conversion Paths",
+    desc: "Cards, interfaces, and conversion funnels designed to turn casual visitors into qualified leads and paying enterprise partners.",
+    icon: TrendingUp,
+  },
+  {
+    num: "02",
+    title: "Scalable Architecture",
+    desc: "We engineer systems with battle-tested frameworks (Next.js, Python/Django, PostgreSQL, AWS) that comfortably scale to millions of requests.",
+    icon: Layers,
+  },
+  {
+    num: "03",
+    title: "Premium Presentation",
+    desc: "Refined visual interfaces and rigorous QA standards that earn immediate authority with global clients, investors, and stakeholders.",
+    icon: ShieldCheck,
+  },
 ];
-const CountUp = ({ target, display, label }: { target: number | null; display: string; label: string }) => {
-  const [val, setVal] = useState(target !== null ? '0' : '');
-  const ref = useRef<HTMLDivElement>(null);
-  const triggered = useRef(false);
 
-  useEffect(() => {
-    if (target === null) return;
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          if (triggered.current) return;
-          triggered.current = true;
-          const obj = { v: 0 };
-          gsap.to(obj, {
-            v: target,
-            duration: 2,
-            ease: 'power2.out',
-            onUpdate: () => {
-              const suffix = display.replace(/^[0-9]+/, '');
-              const prefix = display.startsWith('0') && target < 10 ? '0' : '';
-              setVal(prefix + Math.round(obj.v) + suffix);
-            },
-          });
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, [target, display]);
-
-  useEffect(() => {
-    if (target !== null) return;
-    const el = ref.current;
-    if (!el) return;
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          let i = 0;
-          const chars = display.split('');
-          const timer = setInterval(() => {
-            if (i <= chars.length) {
-              setVal(chars.slice(0, i).join(''));
-              i++;
-            } else clearInterval(timer);
-          }, 100);
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, [target, display]);
-
+export const Stats = () => {
   return (
-    <div ref={ref} className="text-center">
-      <p className="font-display font-extrabold text-blue-600" style={{ fontSize: 'clamp(64px, 10vw, 96px)' }}>
-        {val || display}
-      </p>
-      <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-secondary mt-2">{label}</p>
-    </div>
-  );
-};
+    <section id="outcomes" className="relative py-24 sm:py-32 bg-[#0A0A0A] text-white border-b border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="max-w-2xl mb-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold/80 mb-3">
+            Project Standards & Quality
+          </p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            Every project shaped around{" "}
+            <span className="gold-gradient-text">
+              business outcomes
+            </span>
+          </h2>
+          <p className="mt-4 text-white/50 text-base leading-relaxed">
+            We don&apos;t just deliver code. We design and build mission-critical digital infrastructure that directly accelerates company growth.
+          </p>
+        </div>
 
-const Stats = () => {
-  const topLine = useRef<HTMLDivElement>(null);
-  const bottomLine = useRef<HTMLDivElement>(null);
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {outcomes.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.num}
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0E0E0E] p-8 shadow-sm transition-all duration-300 hover:border-gold/30 hover:shadow-[0_10px_30px_rgba(223,169,0,0.08)]"
+              >
+                {/* Gold vertical accent bar on left */}
+                <div className="absolute top-6 bottom-6 left-0 w-[2.5px] rounded-r-full bg-gradient-to-b from-transparent via-gold/50 to-transparent" />
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      [topLine.current, bottomLine.current].forEach((el) => {
-        if (!el) return;
-        gsap.fromTo(el, { scaleX: 0 }, {
-          scaleX: 1, duration: 1, ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-        });
-      });
-    });
-    return () => ctx.revert();
-  }, []);
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-bold tracking-[0.2em] text-gold/50">
+                    {item.num}
+                  </span>
+                  <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold">
+                    <Icon size={18} />
+                  </div>
+                </div>
 
-  return (
-    <section id="stats" className="py-32 relative bg-slate-50 border-y border-slate-200">
-      <div ref={topLine} className="absolute top-0 left-0 right-0 h-px bg-slate-200 origin-left" />
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-          {stats.map((s) => (
-            <CountUp key={s.label} target={s.value} display={s.display} label={s.label} />
-          ))}
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm leading-relaxed text-white/50">
+                  {item.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div ref={bottomLine} className="absolute bottom-0 left-0 right-0 h-px bg-slate-200 origin-left" />
     </section>
   );
 };

@@ -73,30 +73,46 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Syne', sans-serif;
+    @apply bg-[#080808] text-white;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
-  .font-mono {
-    font-family: 'Space Mono', monospace;
+  .font-sans {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
-  .font-editorial {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
+  .text-gold {
+    color: #DFA900;
   }
-  .technical-grid {
-    background-size: 40px 40px;
-    background-image: 
-      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  .bg-gold {
+    background-color: #DFA900;
+  }
+  .border-gold {
+    border-color: #DFA900;
+  }
+  .gold-gradient {
+    background: linear-gradient(135deg, #DFA900 0%, #F6C400 50%, #FFE08A 100%);
+  }
+  .gold-gradient-text {
+    background: linear-gradient(110deg, #DFA900 0%, #F6C400 35%, #FFE08A 65%, #DFA900 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gold-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(223, 169, 0, 0.3) 50%, transparent 100%);
+  }
+  .gold-glow {
+    box-shadow: 0 0 25px rgba(223, 169, 0, 0.18);
   }
 }
 

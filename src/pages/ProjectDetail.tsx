@@ -55,11 +55,45 @@ export const ProjectDetail = () => {
     );
   }
 
-  const accentColor = project.color || "#3b82f6";
+  const accentColor = project.color || "#DFA900";
   const mainImage = getOptimizedImageUrl(project.image);
   const allGalleryImages = Array.from(
     new Set([project.image, ...(project.caseStudy?.gallery || [])].filter(Boolean))
   );
+
+  const renderVideoPlayer = (url: string) => {
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      const videoId = url.includes("youtu.be")
+        ? url.split("/").pop()?.split("?")[0]
+        : new URL(url).searchParams.get("v");
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
+          className="w-full h-full rounded-2xl"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      );
+    }
+    if (url.includes("vimeo.com")) {
+      const id = url.split("/").pop();
+      return (
+        <iframe
+          src={`https://player.vimeo.com/video/${id}`}
+          className="w-full h-full rounded-2xl"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      );
+    }
+    return (
+      <video
+        src={url}
+        controls
+        className="w-full h-full rounded-2xl object-contain bg-black"
+      />
+    );
+  };
 
   return (
     <motion.div
@@ -214,6 +248,25 @@ export const ProjectDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Video Demo Player if attached */}
+      {project.video && (
+        <section className="py-14 px-6 md:px-12 bg-black border-t border-zinc-900">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-6">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#DFA900] font-semibold">
+                Live Demonstration
+              </span>
+              <h3 className="text-2xl font-bold text-white mt-1">
+                Interactive Video Walkthrough
+              </h3>
+            </div>
+            <div className="aspect-video w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0E0E0E]">
+              {renderVideoPlayer(project.video)}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Challenge & Solution Grid */}
       <section className="py-24 px-6 md:px-12 bg-black border-t border-zinc-900">

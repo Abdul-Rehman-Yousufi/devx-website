@@ -12,6 +12,8 @@ export interface Project {
   image: string;
   featured?: boolean;
   layoutSize: 'hero' | 'wide' | 'standard';
+  category?: string;
+  video?: string;
 
   // Case Study Extensions
   caseStudy: {

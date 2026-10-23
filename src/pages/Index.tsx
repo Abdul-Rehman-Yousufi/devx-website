@@ -2,15 +2,11 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import CustomCursor from '../components/portfolio/CustomCursor';
 import Navbar from '../components/portfolio/Navbar';
 import Hero from '../components/portfolio/Hero';
-import About from '../components/portfolio/About';
 import Projects from '../components/portfolio/Projects';
-import Skills from '../components/portfolio/Skills';
-import Experience from '../components/portfolio/Experience';
 import Stats from '../components/portfolio/Stats';
-import ProjectEstimator from '../components/portfolio/ProjectEstimator';
+import About from '../components/portfolio/About';
 import Contact from '../components/portfolio/Contact';
 import Footer from '../components/portfolio/Footer';
 
@@ -58,18 +54,25 @@ const Index = () => {
   }, []);
 
   return (
-    <main ref={scrollContainerRef} className="bg-background text-foreground min-h-screen overflow-x-hidden">
-      <CustomCursor />
+    <main ref={scrollContainerRef} className="bg-[#080808] text-white min-h-screen overflow-x-hidden selection:bg-gold/30 selection:text-[#FFE08A]">
       <Navbar />
       <div className="sections-wrapper">
+        {/* 1. Executive Hero with Marquee Ticker */}
         <Hero />
-        <About />
+
+        {/* 2. Main Portfolio Showcase Front & Center with Category Tabs */}
         <Projects />
-        <Skills />
-        <Experience />
+
+        {/* 3. Business Outcomes & Project Quality Pillars */}
         <Stats />
-        <ProjectEstimator />
+
+        {/* 4. Executive Leadership & Company Profile */}
+        <About />
+
+        {/* 5. Consultation & Strategy Inquiry */}
         <Contact />
+
+        {/* 6. Agency Footer */}
         <Footer />
       </div>
     </main>

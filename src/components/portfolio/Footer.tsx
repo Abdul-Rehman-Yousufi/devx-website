@@ -1,74 +1,55 @@
-import { useEffect, useRef } from 'react';
-import { 
-  GitHubLogoIcon as Github, 
-  LinkedInLogoIcon as Linkedin, 
-  InstagramLogoIcon as Instagram 
-} from '@radix-ui/react-icons';
-import { ShieldCheck, Sliders, ArrowUpRight } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Magnetic } from './Magnetic';
 import { Link } from 'react-router-dom';
+import { LinkedInLogoIcon as Linkedin } from '@radix-ui/react-icons';
+import { Sliders, ShieldCheck } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const Footer = () => {
-  const lineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (lineRef.current) {
-        gsap.fromTo(lineRef.current, { scaleX: 0 }, {
-          scaleX: 1, duration: 1, ease: 'power2.out',
-          scrollTrigger: { trigger: lineRef.current, start: 'top 95%', once: true },
-        });
-      }
-    });
-    return () => ctx.revert();
-  }, []);
-
+export const Footer = () => {
   return (
-    <footer className="bg-background py-12 px-6 md:px-12 relative overflow-hidden border-t border-slate-200">
-      <div ref={lineRef} className="h-px bg-blue-500/20 mb-8 origin-left" />
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="bg-[#080808] text-white py-14 px-5 sm:px-8 lg:px-12 relative border-t border-white/[0.06]">
+      <div className="gold-divider absolute top-0 left-0 right-0" />
+      
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        {/* Brand */}
         <div className="flex flex-col items-center md:items-start gap-2">
-          <p className="font-mono text-xs text-text-secondary">
-            Engineered by <span className="font-bold text-slate-900">Devx Solutions</span> — Global Software & AI Systems
-          </p>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-[9px] font-mono text-emerald-600 uppercase tracking-widest font-bold">Enterprise QA Verified</span>
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-lg text-white tracking-tight">
+              DEVX<span className="text-gold">.</span>
+            </span>
+            <span className="text-xs text-white/40 uppercase tracking-widest font-semibold">
+              Solutions
+            </span>
           </div>
+          <p className="text-xs text-white/45 max-w-sm text-center md:text-left leading-relaxed">
+            Enterprise software development agency building high-performance web applications, mobile apps, SaaS platforms, and AI systems.
+          </p>
         </div>
 
-        <div className="flex items-center gap-6 text-xs font-mono">
-          <Link to="/all-project" className="text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-1">
-            All Works <ArrowUpRight size={12} />
-          </Link>
-          <Link to="/capability-deck" className="text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-1">
-            Deck <ArrowUpRight size={12} />
-          </Link>
-          <Link to="/admin" className="text-blue-600 hover:text-blue-700 font-bold transition-colors flex items-center gap-1">
-            <Sliders size={12} /> Studio
+        {/* Quick Links */}
+        <div className="flex items-center flex-wrap justify-center gap-6 text-xs text-white/60 font-medium">
+          <a href="#hero" className="hover:text-gold transition-colors">Home</a>
+          <a href="#portfolio" className="hover:text-gold transition-colors">Portfolio</a>
+          <a href="#outcomes" className="hover:text-gold transition-colors">Why Devx</a>
+          <a href="#leadership" className="hover:text-gold transition-colors">About</a>
+          <a href="#contact" className="hover:text-gold transition-colors">Contact</a>
+          <Link to="/studio" className="text-gold hover:text-white transition-colors flex items-center gap-1.5 font-semibold">
+            <Sliders size={13} /> Team Studio
           </Link>
         </div>
 
-        <div className="flex items-center gap-4">
-          {[
-            { Icon: Linkedin, url: 'https://www.linkedin.com/company/devx-sols/', label: 'LinkedIn' }
-          ].map(({ Icon, url, label }, i) => (
-            <Magnetic key={i}>
-              <a href={url} target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-blue-600 transition-colors" aria-label={label} data-cursor="link">
-                <Icon width={20} height={20} />
-              </a>
-            </Magnetic>
-          ))}
+        {/* Social & Legal */}
+        <div className="flex flex-col items-center md:items-end gap-3">
+          <a
+            href="https://www.linkedin.com/company/devx-sols/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-2 text-xs font-semibold text-white/70 hover:text-gold transition-colors rounded-full border border-white/10 px-4 py-1.5 bg-white/[0.03]"
+          >
+            <Linkedin className="w-3.5 h-3.5 text-gold" />
+            <span>LinkedIn Profile</span>
+          </a>
+          <p className="text-[11px] text-white/30">
+            © {new Date().getFullYear()} Devx Solutions Inc. All rights reserved.
+          </p>
         </div>
-      </div>
-      <div className="text-center mt-6">
-        <p className="font-mono text-[10px] text-slate-400">
-          © {new Date().getFullYear()} Devx Solutions Inc. All rights reserved.
-        </p>
       </div>
     </footer>
   );

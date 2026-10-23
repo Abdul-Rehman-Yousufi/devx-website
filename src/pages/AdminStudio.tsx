@@ -56,12 +56,14 @@ const EMPTY_PROJECT: Project = {
   title: '',
   description: '',
   tech: ['React', 'TypeScript'],
+  category: 'Web Development',
   type: 'Full Stack Web Application',
+  video: '',
   badge: 'NEW',
   status: 'In Production',
   github: '',
   live: '',
-  color: '#3b82f6',
+  color: '#DFA900',
   image: '',
   featured: true,
   layoutSize: 'standard',
@@ -85,7 +87,7 @@ const EMPTY_PROJECT: Project = {
 
 export const AdminStudio = () => {
   const navigate = useNavigate();
-  const { projects, saveProject, deleteProject, resetProjects } = useProjects();
+  const { projects, categories, saveProject, deleteProject, resetProjects, addCategory } = useProjects();
 
   // Security Gate: Master key devx@# (Always required upon entering studio)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -104,9 +106,51 @@ export const AdminStudio = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterFeatured, setFilterFeatured] = useState<boolean | null>(null);
 
-  // New tag and url inputs
+  // New tag, url, category and video inputs
   const [techInput, setTechInput] = useState('');
   const [galleryUrlInput, setGalleryUrlInput] = useState('');
+  const [newCategoryInput, setNewCategoryInput] = useState('');
+  const videoInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle Video File Upload
+  const handleVideoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingProject) return;
+
+    if (file.size > 80 * 1024 * 1024) {
+      toast.error('Video file exceeds 80MB limit. For larger videos, please paste a YouTube, Vimeo, or Loom URL.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (typeof event.target?.result === 'string') {
+        setEditingProject({
+          ...editingProject,
+          video: event.target.result
+        });
+        toast.success(`Video "${file.name}" attached successfully!`);
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  // Handle Custom Category Creation
+  const handleCreateCategory = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const trimmed = newCategoryInput.trim();
+    if (!trimmed) return;
+    addCategory(trimmed);
+    if (editingProject) {
+      setEditingProject({
+        ...editingProject,
+        category: trimmed
+      });
+    }
+    toast.success(`Category "${trimmed}" created & selected!`);
+    setNewCategoryInput('');
+  };
 
   // Handle Authentication with strictly devx@#
   const handleLogin = (e: React.FormEvent) => {
@@ -732,17 +776,51 @@ export const AdminStudio = () => {
 
                   <div>
                     <label className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
-                      Project Category / Type
+                      Portfolio Category *
                     </label>
-                    <input
-                      type="text"
-                      value={editingProject.type || ''}
-                      onChange={(e) =>
-                        setEditingProject({ ...editingProject, type: e.target.value })
-                      }
-                      placeholder="e.g. Enterprise SaaS / AI Automation / Mobile App"
-                      className="w-full bg-zinc-900 border border-zinc-800 focus:border-blue-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none"
-                    />
+                    <div className="space-y-2">
+                      <select
+                        value={editingProject.category || editingProject.type || 'Web Development'}
+                        onChange={(e) =>
+                          setEditingProject({
+                            ...editingProject,
+                            category: e.target.value,
+                            type: e.target.value
+                          })
+                        }
+                        className="w-full bg-zinc-900 border border-zinc-800 focus:border-gold rounded-xl px-4 py-2.5 text-sm text-white outline-none cursor-pointer"
+                      >
+                        {categories.filter((c) => c !== 'All').map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* Add new custom category inline */}
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={newCategoryInput}
+                          onChange={(e) => setNewCategoryInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              handleCreateCategory();
+                            }
+                          }}
+                          placeholder="+ Or create a brand new category (e.g. FinTech, AI Tools)"
+                          className="flex-1 bg-zinc-900/80 border border-zinc-800 focus:border-gold rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-zinc-500 outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleCreateCategory()}
+                          className="px-3 py-1.5 bg-zinc-800 hover:bg-gold hover:text-black text-zinc-200 text-xs rounded-lg font-medium transition-colors whitespace-nowrap"
+                        >
+                          Add Category
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <div>
@@ -1024,7 +1102,102 @@ export const AdminStudio = () => {
                   )}
                 </div>
 
-                {/* 6. Live Links */}
+                {/* 6. VIDEO DEMO SECTION */}
+                <div className="p-5 bg-zinc-900/40 border border-zinc-800 rounded-2xl space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-xs font-mono uppercase text-zinc-200 font-bold flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-400" />
+                        Project Video Demo (URL or Direct Upload)
+                      </label>
+                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                        Attach a YouTube, Vimeo, Loom, or direct MP4 video demo to showcase the live software in action.
+                      </p>
+                    </div>
+                    {editingProject.video && (
+                      <span className="text-xs font-mono text-amber-400 font-bold flex items-center gap-1">
+                        ✓ Video Attached
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Video URL Input & File Upload */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+                    <div className="md:col-span-8">
+                      <input
+                        type="text"
+                        value={editingProject.video || ''}
+                        onChange={(e) =>
+                          setEditingProject({ ...editingProject, video: e.target.value })
+                        }
+                        placeholder="Paste YouTube, Vimeo, Loom, or MP4 URL (e.g. https://youtu.be/...)"
+                        className="w-full bg-zinc-900 border border-zinc-800 focus:border-amber-400 rounded-xl px-4 py-2.5 text-xs text-white outline-none"
+                      />
+                    </div>
+
+                    <div className="md:col-span-4 flex gap-2">
+                      <input
+                        type="file"
+                        ref={videoInputRef}
+                        onChange={handleVideoFileUpload}
+                        accept="video/*"
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => videoInputRef.current?.click()}
+                        className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-medium px-3 py-2.5 transition-colors text-center"
+                      >
+                        Upload Video File
+                      </button>
+
+                      {editingProject.video && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingProject({ ...editingProject, video: '' });
+                            toast.info('Video removed');
+                          }}
+                          className="px-3 py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-xl text-xs transition-colors"
+                          title="Remove video"
+                        >
+                          ✕ Remove
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Inline Video Preview Player */}
+                  {editingProject.video && (
+                    <div className="mt-3 aspect-video max-w-md rounded-xl overflow-hidden border border-white/10 bg-black">
+                      {editingProject.video.includes('youtube.com') || editingProject.video.includes('youtu.be') ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${
+                            editingProject.video.includes('youtu.be')
+                              ? editingProject.video.split('/').pop()?.split('?')[0]
+                              : new URL(editingProject.video).searchParams.get('v')
+                          }`}
+                          className="w-full h-full"
+                          allowFullScreen
+                        />
+                      ) : editingProject.video.includes('vimeo.com') ? (
+                        <iframe
+                          src={`https://player.vimeo.com/video/${editingProject.video.split('/').pop()}`}
+                          className="w-full h-full"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <video
+                          src={editingProject.video}
+                          controls
+                          className="w-full h-full object-contain"
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* 7. Live Links */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
